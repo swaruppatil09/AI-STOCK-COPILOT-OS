@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const tickerString = Array.from(selectedTickers).join(',');
-            const res = await fetch(`http://127.0.0.1:8000/api/plan?budget=${budget}&plan_type=${mode}&tickers=${tickerString}&top_n=${topN}`);
+          const res = await fetch(`https://ai-stock-copilot-os.onrender.com/api/plan?budget=${budget}&plan_type=${mode}&tickers=${tickerString}&top_n=${topN}`);
             const result = await res.json();
 
             if (result.status === "success") {
