@@ -6,15 +6,10 @@ import numpy as np
 from typing import Optional
 from pydantic import BaseModel
 
+
 class ChatMessage(BaseModel):
     message: str
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import yfinance as yf
-import pandas as pd
-import numpy as np
-from typing import Optional
 
 app = FastAPI(title="AI Stock Copilot - Bulletproof Engine")
 
@@ -188,3 +183,4 @@ def chat_with_copilot(chat: ChatMessage):
         return {"status": "success", "reply": response.text}
     except Exception as e:
         return {"status": "error", "reply": f"AI Engine Offline: {str(e)}"}
+        ChatMessage.model_rebuild()
