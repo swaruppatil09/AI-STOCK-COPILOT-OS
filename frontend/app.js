@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/chart/${ticker}`);
+            const res = await fetch(`https://ai-stock-copilot-os.onrender.com/api/chart/${ticker}`);
             const data = await res.json();
             if (data.status === "success" && data.data.length > 0) {
                 currentChartData = data.data;
