@@ -1,42 +1,66 @@
 # 📈 AI Stock Copilot
 
-AI Stock Copilot is a Python-based stock analysis dashboard designed to help users explore stock market data, understand trends, and compare stocks using data-driven indicators.
+AI Stock Copilot is a Python-based stock analysis web application that helps users explore stock market data, compare stocks, understand risk indicators, and create investment allocation plans.
+
+🌐 **Live Demo:** https://ai-stock-copilot-os-1.onrender.com  
+📂 **GitHub Repository:** https://github.com/swaruppatil09/AI-STOCK-COPILOT-OS
 
 ## 🚀 Features
 
-- 📊 Stock market data analysis
-- 📈 Historical price and performance tracking
-- 🧠 Stock scoring and ranking
-- ⚠️ Risk and drawdown analysis
-- 📉 Trend and performance insights
-- 💻 Interactive dashboard built with Streamlit
+- 📊 **Stock Analysis** — Explore stock data and performance indicators.
+- 📈 **Historical Charts** — View historical stock price movements.
+- 🧠 **Stock Scoring and Ranking** — Compare stocks using data-driven metrics.
+- ⚠️ **Risk Analysis** — Explore risk indicators and maximum drawdown.
+- 💰 **Investment Planning** — Generate allocation plans based on a budget.
+- 📉 **Mutual Fund Data** — Explore available mutual fund information.
+- 🤖 **AI Chat Assistant** — Interact with the integrated chat feature.
+- 🌐 **Web Dashboard** — Access the application through a deployed frontend and backend.
 
 ## 🛠️ Technologies Used
 
+**Backend**
 - Python
-- Streamlit
+- FastAPI
+- Uvicorn
 - Pandas
 - NumPy
 - yfinance
 
+**Frontend**
+- HTML
+- CSS
+- JavaScript
+
+**Data and Deployment**
+- Yahoo Finance data via yfinance
+- Render for web deployment
+
+## 🏗️ Project Architecture
+
+The application uses a frontend-backend architecture.
+
+1. The frontend provides the dashboard and user interactions.
+2. The FastAPI backend handles API requests and data processing.
+3. Market data is retrieved using the configured data source.
+4. The frontend displays analysis, charts, and investment-planning results.
+
 ## 📁 Project Structure
 
 ```text
-AI-Stock-Copilot/
+AI-STOCK-COPILOT-OS/
 ├── backend/
 │   └── main.py
 ├── frontend/
-│   ├── app.js
 │   ├── index.html
-│   └── style.css
+│   ├── style.css
+│   └── app.js
 ├── dashboard.py
+├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-*The structure above is illustrative; adjust it if your actual files differ.*
-
-## ⚙️ Installation and Setup
+## ⚙️ Run Locally
 
 ### 1. Clone the repository
 
@@ -53,7 +77,7 @@ python -m venv .venv
 
 ### 3. Activate the environment
 
-**Windows PowerShell:**
+**Windows PowerShell**
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
@@ -61,36 +85,52 @@ python -m venv .venv
 
 ### 4. Install dependencies
 
-Install the packages used by your project:
-
 ```bash
-pip install streamlit yfinance pandas numpy fastapi uvicorn
+pip install -r requirements.txt
 ```
 
-### 5. Run the dashboard
+### 5. Start the backend
 
 ```bash
-streamlit run dashboard.py
+uvicorn backend.main:app --reload
 ```
 
-## 🎯 Project Objective
+The API will normally be available at:
 
-The objective of AI Stock Copilot is to make stock market data easier to explore by combining historical data, performance indicators, stock comparisons, and risk insights in one dashboard.
+`http://127.0.0.1:8000`
+
+API documentation:
+
+`http://127.0.0.1:8000/docs`
+
+### 6. Open the frontend
+
+Open `frontend/index.html` in your browser or use a local static web server.
+
+**Note:** The frontend must be configured to communicate with the correct backend URL. For local development, configure it to use the local API; for the deployed version, use the deployed backend URL.
+
+## 🎯 Project Objectives
+
+- Make stock market information easier to explore.
+- Compare stocks using performance and risk indicators.
+- Generate budget-based investment allocation plans.
+- Integrate market-data analysis with a user-friendly web interface.
 
 ## 🔮 Future Improvements
 
-- Add more technical indicators.
-- Improve stock ranking and risk analysis.
-- Add portfolio allocation tools.
-- Improve dashboard design and user experience.
-- Add secure configuration for external APIs when required.
+- Add more technical indicators and comparison tools.
+- Improve stock-ranking and risk-analysis methods.
+- Add historical strategy testing and performance evaluation.
+- Improve error handling and data validation.
+- Add automated tests and monitoring.
+- Improve security and external API configuration.
 
 ## ⚠️ Disclaimer
 
-This project is for educational and informational purposes only. It does not provide guaranteed returns or personalized financial advice. Always do your own research before making investment decisions.
+This project is intended for educational and informational purposes only. Stock scores and investment plans are experimental and do not guarantee returns or constitute personalized financial advice. Market data may be delayed, incomplete, or inaccurate. Always conduct independent research before making financial decisions.
 
 ## 👨‍💻 Author
 
 **Swarup Patil**
 
-GitHub: [@swaruppatil09](https://github.com/swaruppatil09)
+GitHub: https://github.com/swaruppatil09
