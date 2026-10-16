@@ -178,9 +178,7 @@ def get_mutual_funds():
 
 @app.post("/api/chat")
 def chat_with_copilot(chat: ChatMessage):
-    try:
-        response = ai_model.generate_content(chat.message)
-        return {"status": "success", "reply": response.text}
-    except Exception as e:
-        return {"status": "error", "reply": f"AI Engine Offline: {str(e)}"}
-        ChatMessage.model_rebuild()
+    return {
+        "status": "error",
+        "reply": "AI chat is temporarily unavailable. Please try again later."
+    }
