@@ -1,0 +1,232 @@
+/* Premium Wealth Management Aesthetic */
+:root {
+    --bg-main: #06090f;
+    --accent: #2962ff;
+    --accent-hover: #1e4bd8;
+    --text-main: #f0f2f5;
+    --text-muted: #9aa4b2;
+    --glass-bg: rgba(16, 20, 29, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --success: #00bfa5;
+    --danger: #ff5252;
+}
+
+body {
+    /* Abstract dark financial background with a heavy overlay for readability */
+    background-color: var(--bg-main);
+    background-image: linear-gradient(rgba(6, 9, 15, 0.85), rgba(6, 9, 15, 0.95)), 
+                      url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container { max-width: 1250px; margin: 0 auto; }
+
+/* Premium Hero Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+.brand h1 { margin: 0; color: #fff; font-size: 32px; letter-spacing: -0.5px; font-weight: 700; }
+.brand p { color: var(--accent); margin-top: 6px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Glassmorphism Containers */
+.planner-box, .pool-container, .results-section, .modal-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 24px 30px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+}
+
+.input-group { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.input-group label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+.input-group input, .input-group select {
+    background: rgba(0, 0, 0, 0.3); 
+    border: 1px solid var(--glass-border);
+    color: #fff; padding: 14px 16px; border-radius: 8px;
+    font-size: 15px; transition: border 0.2s; outline: none;
+}
+.input-group input:focus, .input-group select:focus { border-color: var(--accent); }
+
+button {
+    background: var(--accent); color: #fff; border: none;
+    padding: 14px 24px; border-radius: 8px; font-size: 15px;
+    font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(41, 98, 255, 0.4);
+}
+button:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(41, 98, 255, 0.6); }
+button:disabled { background: #2a2e39; color: var(--text-muted); cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* Stock Pool Grid */
+.stock-grid {
+    display: flex; flex-wrap: wrap; gap: 12px; max-height: 220px;
+    overflow-y: auto; padding-right: 10px; margin-top: 16px;
+}
+.pool-chip {
+    background: rgba(0, 0, 0, 0.4); color: var(--text-muted);
+    border: 1px solid var(--glass-border); padding: 10px 18px;
+    border-radius: 30px; font-size: 13px; font-weight: 600;
+    cursor: pointer; user-select: none; transition: all 0.2s;
+}
+.pool-chip:hover { border-color: var(--text-muted); color: #fff; }
+.pool-chip.selected {
+    background: rgba(41, 98, 255, 0.15); color: #fff;
+    border-color: var(--accent); box-shadow: 0 0 12px rgba(41, 98, 255, 0.2);
+}
+
+/* Institutional Data Tables */
+.plan-table {
+    width: 100%; border-collapse: collapse; margin-top: 10px;
+}
+.plan-table th, .plan-table td { 
+    padding: 18px 20px; text-align: left; 
+    border-bottom: 1px solid var(--glass-border); 
+}
+.plan-table th {
+    color: var(--text-muted); font-weight: 600; font-size: 11px; 
+    text-transform: uppercase; cursor: pointer; transition: color 0.2s;
+    letter-spacing: 0.5px;
+}
+.plan-table th:hover { color: #fff; }
+.plan-table tbody tr { transition: background 0.2s; }
+.plan-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+/* Badges */
+.badge-risk { padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+.risk-low { background: rgba(0, 191, 165, 0.1); color: var(--success); }
+.risk-mod { background: rgba(251, 192, 45, 0.1); color: #fbc02d; }
+.risk-high { background: rgba(255, 82, 82, 0.1); color: var(--danger); }
+
+/* Chart Timeframe Controls */
+.tf-btn {
+    background: transparent; color: var(--text-muted); border: 1px solid var(--glass-border);
+    padding: 6px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; box-shadow: none;
+}
+.tf-btn:hover { background: rgba(255, 255, 255, 0.05); color: #fff; transform: none; box-shadow: none; }
+.tf-btn.active { background: rgba(41, 98, 255, 0.2); color: var(--accent); border-color: var(--accent); }
+#close-modal-btn:hover { background: rgba(255, 82, 82, 0.8) !important; }
+
+/* =========================================
+   NEW MULTI-MODULE DASHBOARD STYLES 
+   ========================================= */
+
+/* Layout Wrapper */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Side Navigation */
+.sidebar {
+    width: 260px;
+    background: rgba(10, 14, 23, 0.95);
+    border-right: 1px solid var(--glass-border);
+    padding: 30px 20px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.sidebar-logo {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+.nav-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 14px 20px;
+    text-align: left;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: none;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.05); color: #fff; transform: none; }
+.nav-btn.active { background: rgba(41, 98, 255, 0.15); color: var(--accent); border-left: 3px solid var(--accent); }
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+/* Hide/Show Views */
+.view-section { display: none; animation: fadeIn 0.4s ease; }
+.view-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Dashboard Module Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+/* Image-Backed Module Cards */
+.module-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 30px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-size: cover;
+    background-position: center;
+}
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    border-color: rgba(255,255,255,0.2);
+}
+.module-content { position: relative; z-index: 2; }
+.module-content h2 { margin: 0 0 8px 0; color: #fff; font-size: 24px; letter-spacing: 0.5px; }
+.module-content p { margin: 0; color: rgba(255,255,255,0.8); font-size: 13px; line-height: 1.5; font-weight: 500; }
+
+/* Distinct Background Images & Color Overlays */
+.card-stocks {
+    background-image: linear-gradient(to top, rgba(11, 25, 60, 0.95) 10%, rgba(41, 98, 255, 0.4)), url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800');
+}
+.card-mf {
+    background-image: linear-gradient(to top, rgba(10, 40, 25, 0.95) 10%, rgba(0, 191, 165, 0.4)), url('https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?auto=format&fit=crop&w=800');
+}
+.card-fo {
+    background-image: linear-gradient(to top, rgba(50, 10, 20, 0.95) 10%, rgba(255, 82, 82, 0.4)), url('https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=800');
+}
+.card-ai {
+    background-image: linear-gradient(to top, rgba(15, 10, 50, 0.95) 10%, rgba(156, 39, 176, 0.4)), url('https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800');
+}
+.card-plan {
+    background-image: linear-gradient(to top, rgba(50, 40, 10, 0.95) 10%, rgba(251, 192, 45, 0.4)), url('https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?auto=format&fit=crop&w=800');
+}

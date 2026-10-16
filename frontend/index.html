@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Stock Copilot OS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">COPILOT OS</div>
+            <button class="nav-btn active" data-target="view-dashboard">⊞ Main Dashboard</button>
+            <button class="nav-btn" data-target="view-stocks">📈 Stock Copilot</button>
+            <button class="nav-btn" data-target="view-mf">🌱 Mutual Funds & SIP</button>
+            <button class="nav-btn" data-target="view-plan">💼 My Investments</button>
+        </nav>
+
+        <main class="main-content">
+            <!-- VIEW 1: MAIN DASHBOARD -->
+            <section id="view-dashboard" class="view-section active">
+                <header>
+                    <div class="brand">
+                        <h1>PORTFOLIO COMMAND CENTER</h1>
+                        <p>Select a module to begin analysis</p>
+                    </div>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="module-card card-stocks" onclick="switchView('view-stocks')">
+                        <div class="module-content">
+                            <h2>AI Stock Copilot</h2>
+                            <p>Multi-metric allocation, RSI momentum, 50 SMA trend evaluation, and custom stock depth.</p>
+                        </div>
+                    </div>
+                    <div class="module-card card-mf" onclick="switchView('view-mf')">
+                        <div class="module-content">
+                            <h2>Mutual Funds & SIP</h2>
+                            <p>Institutional compounding simulator with annual step-up growth modeling.</p>
+                        </div>
+                    </div>
+                    <div class="module-card card-plan" onclick="switchView('view-plan')">
+                        <div class="module-content">
+                            <h2>My Investments</h2>
+                            <p>Active portfolio capital tracker, return metrics, and exposure distribution.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: AI STOCK COPILOT -->
+            <section id="view-stocks" class="view-section">
+                <header>
+                    <div class="brand">
+                        <h1>AI STOCK COPILOT</h1>
+                        <p>Institutional Grade Investment Planner & Analytics</p>
+                    </div>
+                </header>
+
+                <section class="planner-box">
+                    <div class="input-group">
+                        <label>Budget (₹)</label>
+                        <input type="number" id="budget-input" value="50000" min="1000" step="5000">
+                    </div>
+                    <div class="input-group">
+                        <label>Allocation Strategy</label>
+                        <select id="mode-select">
+                            <option value="lump" selected>AI Score-Weighted (Standard)</option>
+                            <option value="equal">Equal Weight Split (Balanced)</option>
+                            <option value="momentum">Momentum Alpha (High 1Y Return)</option>
+                            <option value="conservative">Capital Preservation (Low Volatility)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Custom Stock Count (Top N)</label>
+                        <input type="number" id="top-n-input" value="4" min="1" max="25">
+                    </div>
+                    <button id="calculate-btn">Evaluate Market</button>
+                </section>
+
+               <div class="pool-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">Select Stocks to Analyze:</span>
+                        <span id="selection-count" style="font-size: 13px; color: #848e9c; font-weight: bold;">0 Selected</span>
+                    </div>
+                    
+                    <!-- NEW LIVE SEARCH BAR -->
+                    <div class="input-group" style="flex-direction: row; margin-bottom: 16px; gap: 10px;">
+                        <input type="text" id="custom-ticker-input" placeholder="Search any NSE ticker (e.g., ZOMATO, HAL, JIOFIN)..." style="flex: 1; padding: 12px 16px;">
+                        <button id="add-ticker-btn" style="padding: 12px 24px; box-shadow: none;">+ Add to Pool</button>
+                    </div>
+
+                    <div id="massive-stock-pool" class="stock-grid"></div>
+                </div>
+                
+                <section class="results-section">
+                    <h2>🏆 The Action Plan: Selected Portfolio</h2>
+                    <table class="plan-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Price</th>
+                                <th>Risk Profile</th>
+                                <th>Composite Score</th>
+                                <th>Recommended Action</th>
+                                <th>Chart</th>
+                            </tr>
+                        </thead>
+                        <tbody id="plan-tbody">
+                            <tr><td colspan="6" style="text-align: center; color: #848e9c;">Click "Evaluate Market" to calculate allocation.</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="budget-summary" id="budget-summary" style="display: none; margin-top: 14px; display: flex; gap: 20px; font-size: 14px;">
+                        <span id="allocated-info" style="color: #2962ff; font-weight: 600;"></span>
+                        <span id="cash-info" style="color: #848e9c;"></span>
+                    </div>
+                </section>
+
+                <section class="results-section" style="margin-top: 40px;">
+                    <h2>📊 Full Evaluation Leaderboard</h2>
+                    <table class="plan-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th id="th-return">1-Yr Return ↕</th>
+                                <th id="th-rsi">RSI (14) ↕</th>
+                                <th>Structure (50 SMA)</th>
+                                <th id="th-pe">P/E ↕</th>
+                                <th id="th-score">Score ↕</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-tbody">
+                            <tr><td colspan="7" style="text-align: center; color: #848e9c;">Awaiting evaluation...</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+
+            <!-- VIEW 3: MUTUAL FUNDS & SIP -->
+            <section id="view-mf" class="view-section">
+                <header>
+                    <div class="brand">
+                        <h1>INSTITUTIONAL SIP & COMPOUNDING SUITE</h1>
+                        <p>Wealth Accumulation & Annual Step-Up Simulator</p>
+                    </div>
+                </header>
+
+                <section class="planner-box" style="display: flex; gap: 30px; align-items: stretch; flex-wrap: wrap;">
+                    <div style="flex: 1.2; display: flex; flex-direction: column; gap: 14px; min-width: 320px;">
+                        <h3 style="margin: 0; color: #fff; font-size: 18px;">Investment Parameters</h3>
+                        <div class="input-group">
+                            <label>Monthly Contribution (₹)</label>
+                            <input type="number" id="sip-amount" value="10000" min="500" step="1000">
+                        </div>
+                        <div class="input-group">
+                            <label>Expected Annual Return (%)</label>
+                            <input type="number" id="sip-rate" value="13.5" min="1" max="40" step="0.5">
+                        </div>
+                        <div class="input-group">
+                            <label>Time Horizon (Years)</label>
+                            <input type="number" id="sip-years" value="15" min="1" max="40">
+                        </div>
+                        <div class="input-group">
+                            <label>Annual Step-Up (% Yearly Increase)</label>
+                            <select id="sip-stepup">
+                                <option value="0">0% (Flat SIP)</option>
+                                <option value="5">5% Yearly Step-Up</option>
+                                <option value="10" selected>10% Yearly Step-Up</option>
+                                <option value="15">15% Yearly Step-Up</option>
+                            </select>
+                        </div>
+                        <button id="calc-sip-btn" style="margin-top: 10px;">Simulate Wealth Growth</button>
+                    </div>
+                    
+                    <div style="flex: 1.5; background: rgba(0, 191, 165, 0.08); border: 1px solid rgba(0, 191, 165, 0.25); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-width: 320px;">
+                        <div>
+                            <span style="color: #9aa4b2; font-size: 12px; font-weight: 700; text-transform: uppercase;">Estimated Maturity Portfolio</span>
+                            <div id="sip-total" style="font-size: 38px; color: #00bfa5; font-weight: 800; margin: 4px 0 16px 0;">₹81,25,480</div>
+                            
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px;">
+                                <span style="color: #9aa4b2;">Total Amount Invested:</span>
+                                <strong id="sip-invested" style="color: #fff; font-size: 16px;">₹38,12,698</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 16px;">
+                                <span style="color: #9aa4b2;">Wealth Multiplier Gain:</span>
+                                <strong id="sip-gains" style="color: #2962ff; font-size: 16px;">₹43,12,782</strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #9aa4b2; margin-bottom: 6px;">
+                                <span id="bar-invested-label">Principal: 47%</span>
+                                <span id="bar-gain-label">Returns: 53%</span>
+                            </div>
+                            <div style="height: 12px; width: 100%; background: #2962ff; border-radius: 6px; overflow: hidden; display: flex;">
+                                <div id="sip-bar-principal" style="width: 47%; background: rgba(255,255,255,0.3); height: 100%;"></div>
+                                <div id="sip-bar-returns" style="width: 53%; background: #00bfa5; height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+          <!-- VIEW 4: MY INVESTMENTS -->
+            <section id="view-plan" class="view-section">
+                <header>
+                    <div class="brand">
+                        <h1>MY INVESTMENTS</h1>
+                        <p>Active Portfolio & Asset Distribution</p>
+                    </div>
+                </header>
+                
+                <!-- 1. Shown BEFORE evaluation is run -->
+                <div id="empty-portfolio-msg" style="text-align: center; color: #848e9c; margin-top: 60px;">
+                    <h3>No Active Portfolio Data</h3>
+                    <p>Go to the Stock Copilot and generate an evaluation plan to track your holdings here.</p>
+                </div>
+
+                <!-- 2. Shown AFTER evaluation is run -->
+                <div id="active-portfolio-dashboard" style="display: none; flex-direction: column; gap: 20px;">
+                    
+                    <!-- NEW PDF DOWNLOAD BUTTON -->
+                    <div style="text-align: right; margin-bottom: -10px;">
+                        <button id="download-pdf-btn" style="background: #2962ff; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(41, 98, 255, 0.4);">📄 Download Official PDF Report</button>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;" id="pdf-content-area">
+                        <div class="planner-box" style="flex: 1; min-width: 280px; text-align: center;">
+                            <h3 style="color: #9aa4b2; margin-top: 0; font-size: 14px; text-transform: uppercase;">Total Capital Allocated</h3>
+                            <h1 id="port-allocated" style="color: #2962ff; font-size: 44px; margin: 10px 0;">₹0</h1>
+                            <p id="port-cash" style="color: #00bfa5; font-weight: bold; margin: 0;">Remaining Cash Buffer: ₹0</p>
+                        </div>
+                        <div class="planner-box" style="flex: 1; min-width: 280px; text-align: center;">
+                            <h3 style="color: #9aa4b2; margin-top: 0; font-size: 14px; text-transform: uppercase;">Asset Exposure Split</h3>
+                            <h1 id="port-exposure" style="color: #00bfa5; font-size: 44px; margin: 10px 0;">0 / 100</h1>
+                            <p style="color: #9aa4b2; margin: 0; font-weight: 600;">Equities (%) : Liquid Cash (%)</p>
+                        </div>
+                    </div>
+
+                    <section class="results-section" style="margin-top: 20px;">
+                        <h2>💼 Current Active Holdings</h2>
+                        <table class="plan-table">
+                            <thead>
+                                <tr>
+                                    <th>Stock</th>
+                                    <th>Shares Owned</th>
+                                    <th>Invested Value</th>
+                                    <th>Allocation %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portfolio-tbody">
+                                <!-- JS will populate this with the generated plan -->
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </section>
+
+    <!-- ADVANCED CHART MODAL -->
+    <div id="chart-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+        <div class="modal-content" style="background: #0b0e14; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; width: 90%; max-width: 1000px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div>
+                    <h3 id="modal-stock-title" style="margin: 0; font-size: 24px; color: #fff;">Stock Analysis</h3>
+                    <p style="margin: 4px 0 0 0; font-size: 13px; color: #00bfa5; font-weight: 600;">● 50-Day SMA Overlay Active</p>
+                </div>
+                <button id="close-modal-btn" style="background: rgba(255,255,255,0.1); color: #fff; border: none; font-size: 20px; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;">&times;</button>
+            </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 16px;" id="timeframe-controls">
+                <button class="tf-btn" data-months="1">1M</button>
+                <button class="tf-btn" data-months="3">3M</button>
+                <button class="tf-btn" data-months="6">6M</button>
+                <button class="tf-btn active" data-months="12">1Y</button>
+            </div>
+            <div id="tv-chart" style="height: 440px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
